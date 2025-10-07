@@ -4,7 +4,7 @@
   }
   
   .background {
-    background-image: url("/Assets/Background_image.png");
+    background-image: url("/Disease-detection-demo/Assets/Background_image.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
