@@ -1,49 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info-Page</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Irish+Grover&family=Inter:wght@400;500;600;700&family=Lemon&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <title>Disease Detection Results - CropSensei</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/info_page_new.css') }}">
 </head>
-
 <body>
-
     <div class="background">
-        <div class="black_box">
-            <div class="navbar">
-                <div class="nav_design">
-                    <div class="logo">
-                        <img src="/Assets/logo.png" alt="">
-                        <p>CROP <br>SENSEI</p>
-
-                    </div>
+        <!-- Navigation -->
+        <div class="navbar">
+            <div class="nav_design">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='Assets/logo.png') }}" alt="CropSensei Logo">
+                    <p>CROP<br>SENSEI</p>
                 </div>
-                <div class="line">
-                    <hr id="hrline">
-                </div>
-
+            </div>
+            <div class="line">
+                <hr id="hrline">
             </div>
         </div>
-        <main>
-            <div class="container">
-                <div class="block1">
-                    <div class="image"></div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Messages -->
+            {% if error %}
+            <div class="message error-message">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+            
+            {% if success %}
+            <div class="message success-message">
+                <p>{{ success }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Info Container -->
+            <div class="info-container">
+                <!-- Image Section -->
+                <div class="image-container">
+                    {% if result and result.image_path %}
+                        <img src="{{ url_for('static', filename=result.image_path) }}" alt="Uploaded Crop Image">
+                    {% else %}
+                        <div class="no-image">No image available</div>
+                    {% endif %}
                 </div>
-                <div class="block2">
-                    <div class="nameofcrop"></div>
-                    <div class="disease"></div>
-                    <div class="prevention"></div>
+
+                <!-- Info Content -->
+                <div class="info-content">
+                    <div class="info-section">
+                        <h2>Detected Disease</h2>
+                        <p class="disease-name">{{ result.disease if result and result.disease else 'Not detected' }}</p>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>Confidence Level</h3>
+                        <p class="confidence">{{ result.confidence if result and result.confidence else 'N/A' }}</p>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>Prevention & Care</h3>
+                        <p class="prevention">{{ result.prevention if result and result.prevention else 'No prevention information available.' }}</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="/" class="btn btn-primary">Upload Another Image</a>
+                    </div>
                 </div>
             </div>
-        </main>
-    </div>
-    </div>
+        </div>
     </div>
 </body>
-
 </html>

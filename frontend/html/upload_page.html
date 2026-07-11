@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload-Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/upload_page.css">
+    <link rel="stylesheet" href="/frontend/css/upload_page.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
             <div class="navbar">
                 <div class="nav_design">
                     <div class="logo">
-                        <img src="/Assets/logo.png" alt="">
+                        <img src="{{ url_for('static', filename='Assets/logo.png') }}" alt="CropSensei Logo">
                         <p>CROP <br>SENSEI</p>
                     </div>
                 </div>
@@ -26,16 +26,31 @@
             
             </div>
             <div class="transparent_box">
-                <div class="select">
-                    <button>
-                        Select image 
-                    </button>
-                </div>
-            </div>
-            <div class="button">
-                <button>
-                    UPLOAD
-                </button>
+                <form action="/predict" method="post" enctype="multipart/form-data">
+                    <div class="select">
+                        <input type="file" name="file" id="fileInput" style="display: none;" onchange="updateButtonText()" required>
+                        <button type="button" id="selectButton" onclick="document.getElementById('fileInput').click()">
+                            Select Image
+                        </button>
+                    </div>
+                    <script>
+                        function updateButtonText() {
+                            const fileInput = document.getElementById('fileInput');
+                            const selectButton = document.getElementById('selectButton');
+                            
+                            if (fileInput.files.length > 0) {
+                                selectButton.textContent = 'Selected: ' + fileInput.files[0].name;
+                            } else {
+                                selectButton.textContent = 'Select Image';
+                            }
+                        }
+                    </script>
+                    <div class="button">
+                        <button type="submit">
+                            UPLOAD
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
